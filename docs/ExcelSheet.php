@@ -386,6 +386,7 @@ class ExcelSheet
 	* Returns the cell width
 	*
 	* @see ExcelSheet::rowHeight()
+	* @see ExcelSheet::colWidthPx()
 	* @see ExcelSheet::setColWidth()
 	* @see ExcelSheet::setRowHeight()
 	* @param int $column 0-based column number
@@ -394,6 +395,20 @@ class ExcelSheet
 	public function colWidth($column)
 	{
 	} // colWidth
+
+	/**
+	* Returns the cell width
+	*
+	* @see ExcelSheet::rowHeight()
+	* @see ExcelSheet::colWidth()
+	* @see ExcelSheet::setColWidth()
+	* @see ExcelSheet::setRowHeight()
+	* @param int $column 0-based column number
+	* @return float
+	*/
+	public function colWidthPx($column)
+	{
+	} // colWidthPx
 
 	/**
 	* Copy a cell from one location to another
@@ -1080,6 +1095,7 @@ class ExcelSheet
 	* Returns the row height
 	*
 	* @see ExcelSheet::colWidth()
+	* @see ExcelSheet::colWidthPx()
 	* @see ExcelSheet::setColWidth()
 	* @see ExcelSheet::setRowHeight()
 	* @param int $row 0-based row number
@@ -1088,6 +1104,20 @@ class ExcelSheet
 	public function rowHeight($row)
 	{
 	} // rowHeight
+
+	/**
+	* Returns the row height
+	*
+	* @see ExcelSheet::colWidth()
+	* @see ExcelSheet::colWidthPx()
+	* @see ExcelSheet::setColWidth()
+	* @see ExcelSheet::setRowHeight()
+	* @param int $row 0-based row number
+	* @return float
+	*/
+	public function rowHeightPx($row)
+	{
+	} // rowHeightPx
 
 	/**
 	* Returns whether row is hidden.

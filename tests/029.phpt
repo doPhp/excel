@@ -16,6 +16,9 @@ date.timezone=America/Toronto
 	var_dump($s->colWidth(1));
 	var_dump($s->rowHeight(4));
 
+	var_dump($s->colWidthPx(1));
+	var_dump($s->rowHeightPx(4));
+
     $s->setColWidth(2, 2, -1);
     var_dump($s->colWidth(2));
 	

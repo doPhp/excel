@@ -2849,6 +2849,22 @@ EXCEL_METHOD(Sheet, rowHeight)
 }
 /* }}} */
 
+/* {{{ proto double ExcelSheet::colWidthPx(int column)
+	Returns the cell width pixels */
+EXCEL_METHOD(Sheet, colWidthPx)
+{
+    PHP_EXCEL_SHEET_GET_DOUBLE_STATE(ColWidthPx)
+}
+/* }}} */
+
+/* {{{ proto double ExcelSheet::rowHeightPx(int row)
+	Returns the cell height pixels */
+EXCEL_METHOD(Sheet, rowHeightPx)
+{
+    PHP_EXCEL_SHEET_GET_DOUBLE_STATE(RowHeightPx)
+}
+/* }}} */
+
 /* {{{ proto string ExcelSheet::readComment(int row, int column)
 	Read comment from a cell */
 EXCEL_METHOD(Sheet, readComment)
@@ -6019,6 +6035,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_rowHeight, 0, 0, 1)
 	ZEND_ARG_INFO(0, row)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_colWidthPx, 0, 0, 1)
+    ZEND_ARG_INFO(0, column)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_rowHeightPx, 0, 0, 1)
+    ZEND_ARG_INFO(0, row)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_readComment, 0, 0, 2)
 	ZEND_ARG_INFO(0, row)
 	ZEND_ARG_INFO(0, column)
@@ -6716,8 +6740,10 @@ zend_function_entry excel_funcs_sheet[] = {
 	EXCEL_ME(Sheet, insertCol, arginfo_Sheet_insertCol, 0)
 	EXCEL_ME(Sheet, removeRow, arginfo_Sheet_removeRow, 0)
 	EXCEL_ME(Sheet, removeCol, arginfo_Sheet_removeCol, 0)
-	EXCEL_ME(Sheet, colWidth, arginfo_Sheet_colWidth, 0)
-	EXCEL_ME(Sheet, rowHeight, arginfo_Sheet_rowHeight, 0)
+    EXCEL_ME(Sheet, colWidth, arginfo_Sheet_colWidth, 0)
+    EXCEL_ME(Sheet, rowHeight, arginfo_Sheet_rowHeight, 0)
+    EXCEL_ME(Sheet, colWidthPx, arginfo_Sheet_colWidthPx, 0)
+    EXCEL_ME(Sheet, rowHeightPx, arginfo_Sheet_rowHeightPx, 0)
 	EXCEL_ME(Sheet, readComment, arginfo_Sheet_readComment, 0)
 	EXCEL_ME(Sheet, writeComment, arginfo_Sheet_writeComment, 0)
 	EXCEL_ME(Sheet, setColWidth, arginfo_Sheet_setColWidth, 0)
