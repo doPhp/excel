@@ -33,7 +33,7 @@ date.timezone=America/Toronto
     
 	echo "OK\n";
 ?>
---EXPECTF--
+--EXPECT--
 float(55)
 float(50)
 float(8)
