@@ -26,10 +26,10 @@ Please see the ```docs/``` and the ```tests/``` directory.
 cd php-8.x.x
 
 # clone repository into php extension dir
-git clone https://github.com/doPhp/excel.git -b php8 ext/excel
+git clone https://github.com/doPhp/excel.git -b main ext/excel
 
 # to build php8 module, you should use php8 git branch
-cd ext/excel && git checkout php8 && cd ../..
+cd ext/excel && git checkout main && cd ../..
 
 # rebuild configure
 ./buildconf --force
@@ -50,7 +50,7 @@ Windows on your own you may want to visit this [project](https://github.com/johm
 ### PHP8
 
 * requires LibXL 3.6.0+
-* use the php8 branch of the github repo
+* use the main branch of the github repo
 
 ## Getting started
 
