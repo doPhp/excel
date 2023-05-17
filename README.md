@@ -3,9 +3,11 @@
 This extension uses libXl library to provide API for generating or parsing
 all Excel files.
 
-libxl is a high-performance mechanism for working with Excel files and is
+`libxl` is a high-performance mechanism for working with Excel files and is
 able to generate output readable on Blackberries, iPhone, Office Products,
-Numbers, etc...
+Numbers, etc. ...
+
+Forked and updated based on the initial development and hosting by [Ilia Alshanetsky](https://github.com/iliaal/php_excel) and [Jan Ehrhardt](https://github.com/Jan-E/php_excel).
 
 ## Documentation
 
@@ -169,3 +171,7 @@ After you have build the extension you can use ```nmake test``` to run the test 
 ### Further reading
 
 * [Performant-Handling-Excel-Files-PHP](http://blog.mayflower.de/4922-Performant-Handling-Excel-Files-PHP.html)
+
+### License
+
+PHP License v3.01 [local](CONTRIBUTING.md) | [online](https://www.php.net/license/3_01.txt)
