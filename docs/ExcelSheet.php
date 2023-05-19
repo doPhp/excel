@@ -1021,6 +1021,21 @@ class ExcelSheet
 	} // read
 
 	/**
+	* Read data from a specific cell
+	* An ExcelFormat object will be assigned to $format if passed
+	*
+	* @since libXL 3.9.0.0
+	* @param int $row 0-based row number
+	* @param int $column 0-based column number
+	* @param &$format (optional, default=null)
+	* @param bool $read_formula (optional, default=true)
+	* @return mixed
+	*/
+	public function readRichStr($row, $column, &$format = null, $read_formula = true)
+	{
+	} // readRichStr
+
+	/**
 	* Read an entire column worth of data
 	*
 	* @param int $column 0-based column number
@@ -1655,6 +1670,21 @@ class ExcelSheet
 	* @return bool
 	*/
 	public function write($row, $column, $data, $format = null, $data_type = -1)
+	{
+	} // write
+
+	/**
+	* Write data into a cell
+	*
+	* @since libXL 3.9.0.0
+	* @param int $row 0-based row number
+	* @param int $column 0-based column number
+	* @param mixed $data
+	* @param ExcelFormat $format (optional, default=null)
+	* @param int $data_type (optional, default=-1) One of ExcelFormat::AS_* constants
+	* @return bool
+	*/
+	public function writeRichStr($row, $column, $data, $format = null, $data_type = -1)
 	{
 	} // write
 
