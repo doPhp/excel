@@ -2671,6 +2671,14 @@ EXCEL_METHOD(Sheet, isFormula)
 }
 /* }}} */
 
+/* {{{ proto bool ExcelSheet::isRichStr(int row, int column)
+	Determine if the cell contains a formula */
+EXCEL_METHOD(Sheet, isRichStr)
+{
+    PHP_EXCEL_SHEET_GET_BOOL_STATE(IsRichStr)
+}
+/* }}} */
+
 /* {{{ proto bool ExcelSheet::isDate(int row, int column)
 	Determine if the cell contains a date */
 EXCEL_METHOD(Sheet, isDate)
@@ -5955,6 +5963,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_readCol, 0, 0, 1)
 	ZEND_ARG_INFO(0, read_formula)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_readRichStr, 0, 0, 2)
+    ZEND_ARG_INFO(0, row)
+    ZEND_ARG_INFO(0, column)
+    ZEND_ARG_INFO(0, format)
+    ZEND_ARG_INFO(0, read_formula)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_writeRichStr, 0, 0, 3)
+    ZEND_ARG_INFO(0, row)
+    ZEND_ARG_INFO(0, column)
+    ZEND_ARG_INFO(0, data)
+    ZEND_ARG_OBJ_INFO(0, format, ExcelFormat, 1)
+    ZEND_ARG_INFO(0, datatype)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_read, 0, 0, 2)
 	ZEND_ARG_INFO(0, row)
 	ZEND_ARG_INFO(0, column)
@@ -5988,6 +6011,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_isFormula, 0, 0, 2)
 	ZEND_ARG_INFO(0, row)
 	ZEND_ARG_INFO(0, column)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_isRichStr, 0, 0, 2)
+    ZEND_ARG_INFO(0, row)
+    ZEND_ARG_INFO(0, column)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_isDate, 0, 0, 2)
@@ -6670,6 +6698,7 @@ zend_function_entry excel_funcs_book[] = {
 	EXCEL_ME(Book, requiresKey, arginfo_Book_requiresKey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	EXCEL_ME(Book, addFont, arginfo_Book_addFont, 0)
 	EXCEL_ME(Book, addFormat, arginfo_Book_addFormat, 0)
+    EXCEL_ME(Book, addRichStr, arginfo_Book_addRichStr, 0)
 	EXCEL_ME(Book, getAllFormats, arginfo_Book_getAllFormats, 0)
 	EXCEL_ME(Book, getError, arginfo_Book_getError, 0)
 	EXCEL_ME(Book, loadFile, arginfo_Book_loadFile, 0)
@@ -6734,7 +6763,10 @@ zend_function_entry excel_funcs_sheet[] = {
 	EXCEL_ME(Sheet, write, arginfo_Sheet_write, 0)
 	EXCEL_ME(Sheet, writeRow, arginfo_Sheet_writeRow, 0)
 	EXCEL_ME(Sheet, writeCol, arginfo_Sheet_writeCol, 0)
-	EXCEL_ME(Sheet, isFormula, arginfo_Sheet_isFormula, 0)
+    EXCEL_ME(Sheet, isFormula, arginfo_Sheet_isFormula, 0)
+    EXCEL_ME(Sheet, isRichStr, arginfo_Sheet_isRichStr, 0)
+    EXCEL_ME(Sheet, readRichStr, arginfo_Sheet_readRichStr, 0)
+    EXCEL_ME(Sheet, writeRichStr, arginfo_Sheet_writeRichStr, 0)
 	EXCEL_ME(Sheet, isDate, arginfo_Sheet_isDate, 0)
 	EXCEL_ME(Sheet, insertRow, arginfo_Sheet_insertRow, 0)
 	EXCEL_ME(Sheet, insertCol, arginfo_Sheet_insertCol, 0)

@@ -399,6 +399,7 @@ class ExcelSheet
 	/**
 	* Returns the cell width
 	*
+	* @since libXL 3.8.6.0
 	* @see ExcelSheet::rowHeight()
 	* @see ExcelSheet::colWidth()
 	* @see ExcelSheet::setColWidth()
@@ -830,6 +831,18 @@ class ExcelSheet
 	} // isFormula
 
 	/**
+	* Determine if a cell contains rich string
+	*
+	* @since libXL 3.9.0.0
+	* @param int $row 0-based row number
+	* @param int $column 0-based column number
+	* @return bool
+	*/
+	public function isRichStr($row, $column)
+	{
+	} // isRichStr
+
+	/**
 	* Returns the page orientation mode
 	*
 	* @see ExcelSheet::setLandscape()
@@ -1108,6 +1121,7 @@ class ExcelSheet
 	/**
 	* Returns the row height
 	*
+	* @since libXL 3.8.6.0
 	* @see ExcelSheet::colWidth()
 	* @see ExcelSheet::colWidthPx()
 	* @see ExcelSheet::setColWidth()
