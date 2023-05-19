@@ -3295,6 +3295,38 @@ EXCEL_METHOD(Sheet, lastCol)
 }
 /* }}} */
 
+/* {{{ proto int ExcelSheet::firstFilledRow()
+	Returns the first row in the sheet that contains a used cell. */
+EXCEL_METHOD(Sheet, firstFilledRow)
+{
+    PHP_EXCEL_INFO(FirstFilledRow, IS_LONG)
+}
+/* }}} */
+
+/* {{{ proto int ExcelSheet::lastFilledRow()
+	Returns the zero-based index of the row after the last row in the sheet that contains a used cell. */
+EXCEL_METHOD(Sheet, lastFilledRow)
+{
+    PHP_EXCEL_INFO(LastFilledRow, IS_LONG)
+}
+/* }}} */
+
+/* {{{ proto int ExcelSheet::firstFilledCol()
+	Returns the first row in the sheet that contains a used cell. */
+EXCEL_METHOD(Sheet, firstFilledCol)
+{
+    PHP_EXCEL_INFO(FirstFilledCol, IS_LONG)
+}
+/* }}} */
+
+/* {{{ proto int ExcelSheet::lastFilledCol()
+	Returns the zero-based index of the row after the last row in the sheet that contains a used cell. */
+EXCEL_METHOD(Sheet, lastFilledCol)
+{
+    PHP_EXCEL_INFO(LastFilledCol, IS_LONG)
+}
+/* }}} */
+
 /* {{{ proto bool ExcelSheet::displayGridlines()
 	Returns whether the gridlines are displayed */
 EXCEL_METHOD(Sheet, displayGridlines)
@@ -6232,6 +6264,18 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_lastCol, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_firstFilledRow, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_lastFilledRow, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_firstFilledCol, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_lastFilledCol, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_displayGridlines, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -6918,6 +6962,10 @@ zend_function_entry excel_funcs_sheet[] = {
 	EXCEL_ME(Sheet, merge, arginfo_Sheet_merge, 0)
 	EXCEL_ME(Sheet, delMergeByIndex, arginfo_Sheet_delMergeByIndex, 0)
 	EXCEL_ME(Sheet, splitInfo, arginfo_Sheet_splitInfo, 0)
+    EXCEL_ME(Sheet, firstFilledRow, arginfo_Sheet_firstFilledRow, 0)
+    EXCEL_ME(Sheet, lastFilledRow, arginfo_Sheet_lastFilledRow, 0)
+    EXCEL_ME(Sheet, firstFilledCol, arginfo_Sheet_firstFilledCol, 0)
+    EXCEL_ME(Sheet, lastFilledCol, arginfo_Sheet_lastFilledCol, 0)
 
 	EXCEL_ME(Sheet, colHidden, arginfo_Sheet_colHidden, 0)
 	EXCEL_ME(Sheet, rowHidden, arginfo_Sheet_rowHidden, 0)

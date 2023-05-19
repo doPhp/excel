@@ -502,6 +502,32 @@ class ExcelSheet
 	} // firstRow
 
 	/**
+	* Returns the 0-based first column in a sheet that contains a used cell
+	*
+    * @since libXL 3.9.0.0
+	* @see ExcelSheet::firstRow()
+	* @see ExcelSheet::lastRow()
+	* @see ExcelSheet::lastCol()
+	* @return int
+	*/
+	public function firstFilledCol()
+	{
+	} // firstCol
+
+	/**
+	* Returns the 0-based first row in a sheet that contains a used cell
+	*
+    * @since libXL 3.9.0.0
+	* @see ExcelSheet::lastRow()
+	* @see ExcelSheet::firstCol()
+	* @see ExcelSheet::lastCol()
+	* @return int
+	*/
+	public function firstFilledRow()
+	{
+	} // firstRow
+
+	/**
 	* Returns the footer text of the sheet when printed
 	*
 	* @see ExcelSheet::header()
@@ -873,6 +899,32 @@ class ExcelSheet
 	* @return int
 	*/
 	public function lastRow()
+	{
+	} // lastRow
+
+	/**
+	* Returns the 0-based last column in a sheet that contains a used cell
+	*
+    * @since libXL 3.9.0.0
+	* @see ExcelSheet::firstRow()
+	* @see ExcelSheet::lastRow()
+	* @see ExcelSheet::firstCol()
+	* @return int
+	*/
+	public function lastFilledCol()
+	{
+	} // lastCol
+
+	/**
+	* Returns the 0-based last row in a sheet that contains a used cell
+	*
+    * @since libXL 3.9.0.0
+	* @see ExcelSheet::firstRow()
+	* @see ExcelSheet::firstCol()
+	* @see ExcelSheet::lastCol()
+	* @return int
+	*/
+	public function lastFilledRow()
 	{
 	} // lastRow
 
