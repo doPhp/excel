@@ -5014,6 +5014,43 @@ EXCEL_METHOD(Sheet, removeComment)
 }
 /* }}} */
 
+/* {{{ proto long ExcelSheet::removePicture()
+	Removes a comment from the cell (only for xls format). */
+EXCEL_METHOD(Sheet, removePicture)
+{
+	zval *object = getThis();
+	SheetHandle sheet;
+	zend_long row=0, col=0;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ll", &row, &col) == FAILURE) {
+		RETURN_FALSE;
+	}
+
+	SHEET_FROM_OBJECT(sheet, object);
+
+	xlSheetRemovePicture(sheet, row, col);
+}
+/* }}} */
+
+/* {{{ proto long ExcelSheet::removePictureByIndex()
+	Removes a comment from the cell (only for xls format). */
+EXCEL_METHOD(Sheet, removePictureByIndex)
+{
+	zval *object = getThis();
+	SheetHandle sheet;
+	zend_long index=0;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ll", &index) == FAILURE) {
+		RETURN_FALSE;
+	}
+
+	SHEET_FROM_OBJECT(sheet, object);
+
+	xlSheetRemovePictureByIndex(sheet, index);
+}
+/* }}} */
+
+
 /* {{{ proto ExcelAutoFilter ExcelAutoFilter::__construct(ExcelSheet sheet)
 	Sheet Constructor. */
 EXCEL_METHOD(AutoFilter, __construct)
@@ -6539,6 +6576,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_removeComment, 0, 0, 2)
 	ZEND_ARG_INFO(0, col)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_removePicture, 0, 0, 0)
+    ZEND_ARG_INFO(0, row)
+    ZEND_ARG_INFO(0, column)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_removePictureByIndex, 0, 0, 0)
+	ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_writeError, 0, 0, 0)
 	ZEND_ARG_INFO(0, row)
 	ZEND_ARG_INFO(0, col)
@@ -6772,6 +6818,8 @@ zend_function_entry excel_funcs_sheet[] = {
 	EXCEL_ME(Sheet, insertCol, arginfo_Sheet_insertCol, 0)
 	EXCEL_ME(Sheet, removeRow, arginfo_Sheet_removeRow, 0)
 	EXCEL_ME(Sheet, removeCol, arginfo_Sheet_removeCol, 0)
+    EXCEL_ME(Sheet, removePicture, arginfo_Sheet_removePicture, 0)
+    EXCEL_ME(Sheet, removePictureByIndex, arginfo_Sheet_removePictureByIndex, 0)
     EXCEL_ME(Sheet, colWidth, arginfo_Sheet_colWidth, 0)
     EXCEL_ME(Sheet, rowHeight, arginfo_Sheet_rowHeight, 0)
     EXCEL_ME(Sheet, colWidthPx, arginfo_Sheet_colWidthPx, 0)

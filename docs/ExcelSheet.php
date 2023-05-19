@@ -1095,6 +1095,26 @@ class ExcelSheet
 	} // removeDataValidations
 
 	/**
+	* Removes picture from row/column coordinates.
+	*
+	* @since libXL 3.9.0.0
+	* @return bool
+	*/
+	public function removePicture($row, $column)
+	{
+	} // removePicture
+
+	/**
+	* Removes all data validations for the sheet (only for xlsx files).
+	*
+	* @since libXL 3.8.0.0
+	* @return bool
+	*/
+	public function removePictureByIndex($index)
+	{
+	} // removePictureByIndex
+
+	/**
 	* Remove rows from row_start to row_end
 	*
 	* @param int $row_start 0-based row number
