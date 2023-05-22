@@ -1001,6 +1001,37 @@ EXCEL_METHOD(Book, getCustomFormat)
 }
 /* }}} */
 
+/* {{{ proto ExcelFormat ExcelBook::addRichString()
+	Add or Copy ExcelFormat object. */
+EXCEL_METHOD(Book, addRichString)
+{
+    BookHandle book;
+    zval *object = getThis();
+    RichStringHandle nformat;
+    excel_format_object *fo;
+    zval *fob = NULL;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|O", &fob, excel_ce_format) == FAILURE) {
+        RETURN_FALSE;
+    }
+
+    BOOK_FROM_OBJECT(book, object);
+    if (fob) {
+        FORMAT_FROM_OBJECT(format, fob);
+    }
+
+    nformat = xlBookAddRichString(book);
+    if (!nformat) {
+        RETURN_FALSE;
+    }
+
+    ZVAL_OBJ(return_value, excel_object_new_format(excel_ce_rich_string));
+    fo = Z_EXCEL_FORMAT_OBJ_P(return_value);
+    fo->format = nformat;
+    fo->book = book;
+}
+/* }}} */
+
 static double _php_excel_date_pack(BookHandle book, long longts)
 {
 	time_t ts;
@@ -1385,6 +1416,13 @@ EXCEL_METHOD(Book, addPictureFromFile)
 EXCEL_METHOD(Book, addPictureFromString)
 {
 	php_excel_add_picture(INTERNAL_FUNCTION_PARAM_PASSTHRU, 1);
+}
+/* }}} */
+
+/* {{{ proto ExcelBook::addRichString()
+    Add Rich String */
+EXCEL_METHOD(Book, addRichString)
+{
 }
 /* }}} */
 
@@ -6788,7 +6826,7 @@ zend_function_entry excel_funcs_book[] = {
 	EXCEL_ME(Book, requiresKey, arginfo_Book_requiresKey, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 	EXCEL_ME(Book, addFont, arginfo_Book_addFont, 0)
 	EXCEL_ME(Book, addFormat, arginfo_Book_addFormat, 0)
-    EXCEL_ME(Book, addRichStr, arginfo_Book_addRichStr, 0)
+    EXCEL_ME(Book, addRichString, arginfo_Book_addRichString, 0)
 	EXCEL_ME(Book, getAllFormats, arginfo_Book_getAllFormats, 0)
 	EXCEL_ME(Book, getError, arginfo_Book_getError, 0)
 	EXCEL_ME(Book, loadFile, arginfo_Book_loadFile, 0)
