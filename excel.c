@@ -1007,27 +1007,23 @@ EXCEL_METHOD(Book, addRichString)
 {
     BookHandle book;
     zval *object = getThis();
-    RichStringHandle nformat;
+    RichStringHandle sformat;
     excel_format_object *fo;
     zval *fob = NULL;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "|O", &fob, excel_ce_format) == FAILURE) {
-        RETURN_FALSE;
-    }
 
     BOOK_FROM_OBJECT(book, object);
     if (fob) {
         FORMAT_FROM_OBJECT(format, fob);
     }
 
-    nformat = xlBookAddRichString(book);
-    if (!nformat) {
+    sformat = xlBookAddRichString(book);
+    if (!sformat) {
         RETURN_FALSE;
     }
 
-    ZVAL_OBJ(return_value, excel_object_new_format(excel_ce_rich_string));
+    ZVAL_OBJ(return_value, excel_object_new_format(excel_ce_format));
     fo = Z_EXCEL_FORMAT_OBJ_P(return_value);
-    fo->format = nformat;
+    fo->format = sformat;
     fo->book = book;
 }
 /* }}} */
@@ -1416,13 +1412,6 @@ EXCEL_METHOD(Book, addPictureFromFile)
 EXCEL_METHOD(Book, addPictureFromString)
 {
 	php_excel_add_picture(INTERNAL_FUNCTION_PARAM_PASSTHRU, 1);
-}
-/* }}} */
-
-/* {{{ proto ExcelBook::addRichString()
-    Add Rich String */
-EXCEL_METHOD(Book, addRichString)
-{
 }
 /* }}} */
 
