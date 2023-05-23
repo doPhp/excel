@@ -951,6 +951,30 @@ EXCEL_METHOD(Book, getAllFormats)
 }
 /* }}} */
 
+/* {{{ proto int ExcelBook::addConditionalFormat(string format)
+	Create a custom cell format */
+EXCEL_METHOD(Book, addConditionalFormat)
+{
+    BookHandle book;
+    zval *object = getThis();
+    zend_string *format_zs = NULL;
+    int id;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "S", &format_zs) == FAILURE) {
+        RETURN_FALSE;
+    }
+
+    EXCEL_NON_EMPTY_STRING(format_zs)
+
+    BOOK_FROM_OBJECT(book, object);
+
+    if (!(id = xlBookAddConditionalFormat(book, ZSTR_VAL(format_zs)))) {
+        RETURN_FALSE;
+    }
+    RETURN_LONG(id);
+}
+/* }}} */
+
 /* {{{ proto int ExcelBook::addCustomFormat(string format)
 	Create a custom cell format */
 EXCEL_METHOD(Book, addCustomFormat)
@@ -1447,6 +1471,41 @@ EXCEL_METHOD(Book, setRGBMode)
 	BOOK_FROM_OBJECT(book, object);
 
 	xlBookSetRgbMode(book, val);
+}
+/* }}} */
+
+/* {{{ proto bool ExcelBook::calcMode()
+	Returns whether the Calc mode is active. */
+EXCEL_METHOD(Book, calcMode)
+{
+BookHandle book;
+zval *object = getThis();
+
+if (ZEND_NUM_ARGS()) {
+RETURN_FALSE;
+}
+
+BOOK_FROM_OBJECT(book, object);
+
+RETURN_BOOL(xlBookCalcMode(book));
+}
+/* }}} */
+
+/* {{{ proto void ExcelBook::setCalcMode(bool mode)
+	Sets a RGB mode on or off. */
+EXCEL_METHOD(Book, setCalcMode)
+{
+    BookHandle book;
+    zval *object = getThis();
+    zend_bool val;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "b", &val) == FAILURE) {
+    RETURN_FALSE;
+    }
+
+    BOOK_FROM_OBJECT(book, object);
+
+    xlBookSetCalcMode(book, val);
 }
 /* }}} */
 
@@ -5742,12 +5801,20 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_getAllFormats, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_addConditionalFormat, 0, 0, 1)
+    ZEND_ARG_INFO(0, format)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_addCustomFormat, 0, 0, 1)
 	ZEND_ARG_INFO(0, format)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_getCustomFormat, 0, 0, 1)
 	ZEND_ARG_INFO(0, id)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_addRichString, 0, 0, 1)
+    ZEND_ARG_INFO(0, format)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_packDate, 0, 0, 1)
@@ -5812,6 +5879,13 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_setRGBMode, 0, 0, 1)
 	ZEND_ARG_INFO(0, mode)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_calcMode, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_setCalcMode, 0, 0, 1)
+    ZEND_ARG_INFO(0, mode)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Book_colorPack, 0, 0, 3)
@@ -6829,7 +6903,8 @@ zend_function_entry excel_funcs_book[] = {
 	EXCEL_ME(Book, sheetCount, arginfo_Book_sheetCount, 0)
 	EXCEL_ME(Book, activeSheet, arginfo_Book_activeSheet, 0)
 	EXCEL_ME(Book, getCustomFormat, arginfo_Book_getCustomFormat, 0)
-	EXCEL_ME(Book, addCustomFormat, arginfo_Book_addCustomFormat, 0)
+    EXCEL_ME(Book, addCustomFormat, arginfo_Book_addCustomFormat, 0)
+    EXCEL_ME(Book, addConditionalFormat, arginfo_Book_addConditionalFormat, 0)
 	EXCEL_ME(Book, packDate, arginfo_Book_packDate, 0)
 	EXCEL_ME(Book, packDateValues, arginfo_Book_packDateValues, 0)
 	EXCEL_ME(Book, unpackDate, arginfo_Book_unpackDate, 0)
@@ -6842,6 +6917,8 @@ zend_function_entry excel_funcs_book[] = {
 	EXCEL_ME(Book, addPictureFromString, arginfo_Book_addPictureFromString, 0)
 	EXCEL_ME(Book, rgbMode, arginfo_Book_rgbMode, 0)
 	EXCEL_ME(Book, setRGBMode, arginfo_Book_setRGBMode, 0)
+    EXCEL_ME(Book, calcMode, arginfo_Book_calcMode, 0)
+    EXCEL_ME(Book, setCalcMode, arginfo_Book_setCalcMode, 0)
 	EXCEL_ME(Book, colorPack, arginfo_Book_colorPack, 0)
 	EXCEL_ME(Book, colorUnpack, arginfo_Book_colorUnpack, 0)
 	EXCEL_ME(Book, isDate1904, arginfo_Book_isDate1904, 0)
