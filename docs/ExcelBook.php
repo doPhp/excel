@@ -54,6 +54,17 @@ class ExcelBook
 	} // activeSheet
 
 	/**
+	* Create conditional format
+	*
+	* @since libXL v4.1.0
+	* @param string $format_string
+	* @return int The ID assigned to the new format
+	*/
+	public function addConditionalFormat($format_string)
+	{
+	} // addConditionalFormat
+
+	/**
 	* Create a custom cell format
 	*
 	* @see ExcelBook::getCustomFormat()
@@ -81,6 +92,17 @@ class ExcelBook
 	* @return ExcelFormat
 	*/
 	public function addFormat(ExcelFormat $format = null)
+	{
+	} // addFormat
+
+	/**
+	* Add or copy an ExcelFormat object
+	*
+	* @since libXL v4.9
+	* @param ExcelFormat $format (optional, default=null) Format to copy
+	* @return ExcelFormat
+	*/
+	public function addRichString(ExcelFormat $format = null)
 	{
 	} // addFormat
 
@@ -144,6 +166,17 @@ class ExcelBook
 	public function biffVersion()
 	{
 	} // biffVersion
+
+	/**
+	* Returns whether calc mode is active
+	*
+	* @since libXL v3.9
+	* @see ExcelBook::setCalcMode()
+	* @return bool
+	*/
+	public function calcMode()
+	{
+	} // calcMode
 
 	/**
 	* Packs red, green, and blue components in color value.  Used for xlsx format only.
@@ -498,6 +531,18 @@ class ExcelBook
 	public function setRGBMode($mode)
 	{
 	} // setRGBMode
+
+	/**
+	* Sets calc mode on or off
+	*
+	* @since libXL v3.9
+	* @see ExcelBook::calcMode()
+	* @param bool $mode
+	* @return void
+	*/
+	public function setCalcMode($mode)
+	{
+	} // setCalcMode
 
 	/**
 	* Sets the template flag, if the workbook is template.
