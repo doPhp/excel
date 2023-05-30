@@ -551,6 +551,25 @@ class ExcelSheet
 	} // footerMargin
 
 	/**
+	* Gets the formControl and its coordinates by index.
+	*
+	* @param int $index
+	* @return array
+	*/
+	public function formControl($index)
+	{
+	} // formControl
+
+	/**
+	* Returns the number of formControl in the sheet.
+	*
+	* @return int
+	*/
+	public function formControlSize()
+	{
+	} // formControlSize
+
+	/**
 	* Returns whether grouping rows summary is below, or above
 	*
 	* @see ExcelSheet::setGroupSummaryBelow()

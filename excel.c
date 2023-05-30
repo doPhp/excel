@@ -4517,6 +4517,53 @@ EXCEL_METHOD(Sheet, setProtect)
 /* }}} */
 #endif
 
+/* {{{ proto long ExcelSheet::formControlSize()
+	Returns the number of formControls in the sheet. */
+EXCEL_METHOD(Sheet, formControlSize)
+{
+    zval *object = getThis();
+    SheetHandle sheet;
+
+    if (ZEND_NUM_ARGS()) {
+        RETURN_FALSE;
+    }
+
+    SHEET_FROM_OBJECT(sheet, object);
+    RETURN_LONG(xlSheetFormControlSize(sheet));
+}
+/* }}} */
+
+/* {{{ proto array ExcelSheet::formControl(int index)
+	Gets the formControl and its coordinates by index. */
+EXCEL_METHOD(Sheet, formControl)
+{
+    SheetHandle sheet;
+    zval *object = getThis();
+    zend_long index;
+    int rowFirst, rowLast, colFirst, colLast;
+    const char *s;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &index) == FAILURE) {
+        RETURN_FALSE;
+    }
+
+    SHEET_FROM_OBJECT(sheet, object);
+
+    s = xlSheetHyperlink(sheet, index, &rowFirst, &rowLast, &colFirst, &colLast);
+
+    if (!s) {
+        RETURN_FALSE;
+    }
+
+    array_init(return_value);
+    add_assoc_string(return_value, "formControl", (char *)s);
+    add_assoc_long(return_value, "row_first", rowFirst);
+    add_assoc_long(return_value, "row_last", rowLast);
+    add_assoc_long(return_value, "col_first", colFirst);
+    add_assoc_long(return_value, "col_last", colLast);
+}
+/* }}} */
+
 /* {{{ proto long ExcelSheet::hyperlinkSize()
 	Returns the number of hyperlinks in the sheet. */
 EXCEL_METHOD(Sheet, hyperlinkSize)
@@ -6634,6 +6681,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_hyperlink, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_formControlSize, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_formControl, 0, 0, 1)
+    ZEND_ARG_INFO(0, index)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_delHyperlink, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
@@ -7058,8 +7112,10 @@ zend_function_entry excel_funcs_sheet[] = {
 	EXCEL_ME(Sheet, addrToRowCol, arginfo_Sheet_addrToRowCol, 0)
 	EXCEL_ME(Sheet, getRightToLeft, arginfo_Sheet_getRightToLeft, 0)
 	EXCEL_ME(Sheet, setRightToLeft, arginfo_Sheet_setRightToLeft, 0)
-	EXCEL_ME(Sheet, hyperlinkSize, arginfo_Sheet_hyperlinkSize, 0)
-	EXCEL_ME(Sheet, hyperlink, arginfo_Sheet_hyperlink, 0)
+	EXCEL_ME(Sheet, formControlSize, arginfo_Sheet_formControlSize, 0)
+	EXCEL_ME(Sheet, formControl, arginfo_Sheet_formControl, 0)
+    EXCEL_ME(Sheet, hyperlinkSize, arginfo_Sheet_hyperlinkSize, 0)
+    EXCEL_ME(Sheet, hyperlink, arginfo_Sheet_hyperlink, 0)
 	EXCEL_ME(Sheet, delHyperlink, arginfo_Sheet_delHyperlink, 0)
 	EXCEL_ME(Sheet, addHyperlink, arginfo_Sheet_addHyperlink, 0)
 	EXCEL_ME(Sheet, mergeSize, arginfo_Sheet_mergeSize, 0)
