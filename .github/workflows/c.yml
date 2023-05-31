@@ -5,6 +5,10 @@ on:
     branches: [ "main", "**" ]
   pull_request:
     branches: [ "main" ]
+    
+env:
+  LIBXL_DOWNLOAD_VERSION: 4.1.2
+  LIBXL_VERSION: 4.1.2
 
 jobs:
   build:
@@ -14,27 +18,25 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: setup
-      run: | 
-            apt-get update -y
-            apt-get install -y wget git libxml2-dev
-    - name: get libXL
-      run: |
-            cd /tmp
-            wget https://www.libxl.com/download/libxl-lin-${LIBXL_DOWNLOAD_VERSION}.tar.gz
-            tar -zxv -f libxl-lin-${LIBXL_DOWNLOAD_VERSION}.tar.gz
-            cp -v /tmp/libxl-${LIBXL_VERSION}/lib64/libxl.so /usr/local/lib/libxl.so
-            mkdir -p /usr/local/include/libxl_c/ \
-            cp /tmp/libxl-${LIBXL_VERSION}/include_c/* /usr/local/include/libxl_c/
-    - name: phpize
-      run: phpize
-    - name: configure
-      run: |
-            ./configure
-              --with-php-config=/usr/local/bin/php-config
-              --with-libxl-incdir=/usr/local/include/libxl_c/
-              --with-libxml-dir=/usr/include/libxml2/
-              --with-excel=../libxl-${LIBXL_VERSION}/
-    - name: make
-      run: make
-    - name: make tests
-      run: make tests
+      run: apt-get install -y wget git libxml2-dev
+#     - name: get libXL
+#       run: |
+#             cd /tmp
+#             wget https://www.libxl.com/download/libxl-lin-<LIBXL_DOWNLOAD_VERSION>.tar.gz
+#             tar -zxv -f libxl-lin-<LIBXL_DOWNLOAD_VERSION/.tar.gz
+#             cp -v /tmp/libxl-<LIBXL_VERSION>/lib64/libxl.so /usr/local/lib/libxl.so
+#             mkdir -p /usr/local/include/libxl_c/ \
+#             cp /tmp/libxl-<LIBXL_VERSION>/include_c/* /usr/local/include/libxl_c/
+#     - name: phpize
+#       run: phpize
+#     - name: configure
+#       run: |
+#             ./configure
+#               --with-php-config=/usr/local/bin/php-config
+#               --with-libxl-incdir=/usr/local/include/libxl_c/
+#               --with-libxml-dir=/usr/include/libxml2/
+#               --with-excel=../libxl-<LIBXL_VERSION>/
+#     - name: make
+#       run: make
+#     - name: make tests
+#       run: make tests
