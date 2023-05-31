@@ -24,7 +24,7 @@ jobs:
 #       with:
 #         args: -O --auth-no-challenge --no-check-certificate https://www.libxl.com/download/libxl-lin-4.1.2.tar.gz
     - name: get libXL
-      run: curl -kO https://www.libxl.com/download/libxl-lin-4.1.2.tar.gz
+      run: curl --insecure https://www.libxl.com/download/libxl-lin-4.1.2.tar.gz
 #       run: |
 #             cd /tmp
 #             wget --no-check-certificate https://www.libxl.com/download/libxl-lin-4.1.2.tar.gz
