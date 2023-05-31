@@ -20,13 +20,16 @@ jobs:
     - name: setup
       run: sudo apt-get install -y libxml2-dev
     - name: get libXL
-      run: |
-            cd /tmp
-            wget --no-check-certificate https://www.libxl.com/download/libxl-lin-4.1.2.tar.gz
-            tar -zxv -f libxl-lin-4.1.2.tar.gz
-            cp -v /tmp/libxl-${LIBXL_VERSION}/lib64/libxl.so /usr/local/lib/libxl.so
-            mkdir -p /usr/local/include/libxl_c/ \
-            cp /tmp/libxl-4.1.2/include_c/* /usr/local/include/libxl_c/
+      uses: wei/wget@v1
+      with:
+        args: -qO- https://www.libxl.com/download/libxl-lin-4.1.2.tar.gz
+#       run: |
+#             cd /tmp
+#             wget --no-check-certificate https://www.libxl.com/download/libxl-lin-4.1.2.tar.gz
+#             tar -zxv -f libxl-lin-4.1.2.tar.gz
+#             cp -v /tmp/libxl-${LIBXL_VERSION}/lib64/libxl.so /usr/local/lib/libxl.so
+#             mkdir -p /usr/local/include/libxl_c/ \
+#             cp /tmp/libxl-4.1.2/include_c/* /usr/local/include/libxl_c/
     - name: phpize
       run: phpize
 #     - name: configure
