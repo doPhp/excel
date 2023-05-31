@@ -19,16 +19,16 @@ jobs:
     - uses: actions/checkout@v3
     - name: setup
       run: sudo apt-get install -y libxml2-dev
-#     - name: get libXL
-#       run: |
-#             cd /tmp
-#             wget https://www.libxl.com/download/libxl-lin-<LIBXL_DOWNLOAD_VERSION>.tar.gz
-#             tar -zxv -f libxl-lin-<LIBXL_DOWNLOAD_VERSION/.tar.gz
-#             cp -v /tmp/libxl-<LIBXL_VERSION>/lib64/libxl.so /usr/local/lib/libxl.so
-#             mkdir -p /usr/local/include/libxl_c/ \
-#             cp /tmp/libxl-<LIBXL_VERSION>/include_c/* /usr/local/include/libxl_c/
-#     - name: phpize
-#       run: phpize
+    - name: get libXL
+      run: |
+            cd /tmp
+            wget https://www.libxl.com/download/libxl-lin-<LIBXL_DOWNLOAD_VERSION>.tar.gz
+            tar -zxv -f libxl-lin-<LIBXL_DOWNLOAD_VERSION/.tar.gz
+            cp -v /tmp/libxl-<LIBXL_VERSION>/lib64/libxl.so /usr/local/lib/libxl.so
+            mkdir -p /usr/local/include/libxl_c/ \
+            cp /tmp/libxl-<LIBXL_VERSION>/include_c/* /usr/local/include/libxl_c/
+    - name: phpize
+      run: phpize
 #     - name: configure
 #       run: |
 #             ./configure
