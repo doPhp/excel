@@ -1,3 +1,8 @@
+[2024-??-??] - Version 1.1.0dev
+	* Added new methods (requires LibXL 3.7.0)
+		- ExcelSheet::writeFormula()
+		- ExcelSheet::setTabRgbColor()
+
 [2018-??-??] - Version 1.0.3dev
 	* Fixed crash when trying to read an empty file
 	* Fixed bug with writing references (see issue #234)

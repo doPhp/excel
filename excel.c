@@ -54,7 +54,7 @@ static long xlFormatBorderColor(FormatHandle f)
 #define PHP_EXCEL_FORMULA 2
 #define PHP_EXCEL_NUMERIC_STRING 3
 
-#define PHP_EXCEL_VERSION "1.0.3dev"
+#define PHP_EXCEL_VERSION "1.1.0dev"
 
 #ifdef COMPILE_DL_EXCEL
 ZEND_GET_MODULE(excel)
@@ -2638,6 +2638,78 @@ EXCEL_METHOD(Sheet, writeCol)
 }
 /* }}} */
 
+#if LIBXL_VERSION >= 0x03070000
+zend_bool php_excel_write_cell_formula(SheetHandle sheet, BookHandle book, int row, int col, zval *expr, zval *value, FormatHandle format)
+{
+	zend_string *expr_zs;
+	zend_string *value_zs;
+	expr_zs = Z_STR_P(expr);
+
+	try_again:
+	switch (Z_TYPE_P(value)) {
+		case IS_NULL:
+			return xlSheetWriteFormulaStr(sheet, row, col, (const char*) ZSTR_VAL(expr_zs), NULL, format);
+
+		case IS_LONG:
+		    return xlSheetWriteFormulaNum(sheet, row, col, (const char*) ZSTR_VAL(expr_zs), (double) Z_LVAL_P(value), format);
+
+		case IS_DOUBLE:
+		    return xlSheetWriteFormulaNum(sheet, row, col, (const char*) ZSTR_VAL(expr_zs), Z_DVAL_P(value), format);
+
+		case IS_STRING:
+			value_zs = Z_STR_P(value);
+			return xlSheetWriteFormulaStr(sheet, row, col, (const char*) ZSTR_VAL(expr_zs), (const char*) ZSTR_VAL(value_zs), format);
+
+		case IS_TRUE:
+			return xlSheetWriteFormulaBool(sheet, row, col, (const char*) ZSTR_VAL(expr_zs), 1, format);
+
+		case IS_FALSE:
+			return xlSheetWriteFormulaBool(sheet, row, col, (const char*) ZSTR_VAL(expr_zs), 0, format);
+
+		case IS_REFERENCE:
+			ZVAL_DEREF(expr);
+			goto try_again;
+
+		default:
+			php_error_docref(NULL, E_WARNING, "Type mismatch: %s not supported for atomic write operation in row %d, column %d", Z_TYPE_P(expr), row, col);
+			return 1;
+	}
+
+	return 0;
+}
+
+/* {{{ proto bool ExcelSheet::writeFormula(int row, int column, mixed expr, mixed value [, ExcelFormat format])
+	Writes a formula expression with precalculated value into cell with specified format. */
+EXCEL_METHOD(Sheet, writeFormula)
+{
+    zval *object = getThis();
+	SheetHandle sheet;
+	BookHandle book;
+	FormatHandle format;
+	zend_long row, col;
+	zval *oformat = NULL;
+	zval *expr;
+	zval *value;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "llzz|O", &row, &col, &expr, &value, &oformat, excel_ce_format) == FAILURE) {
+		RETURN_FALSE;
+	}
+
+	SHEET_AND_BOOK_FROM_OBJECT(sheet, book, object);
+	if (oformat) {
+		FORMAT_FROM_OBJECT(format, oformat);
+	}
+
+	if (!php_excel_write_cell_formula(sheet, book, row, col, expr, value, oformat ? format : 0)) {
+		php_error_docref(NULL, E_WARNING, "Failed to write cell in row %d, column %d with error '%s'", row, col, xlBookErrorMessage(book));
+		RETURN_FALSE;
+	}
+
+	RETURN_TRUE;
+}
+/* }}} */
+#endif
+
 #define PHP_EXCEL_SHEET_GET_BOOL_STATE(func_name) \
 	{ \
 		SheetHandle sheet; \
@@ -4885,8 +4957,28 @@ EXCEL_METHOD(Sheet, setTabColor)
 
 	SHEET_FROM_OBJECT(sheet, object);
 
-	// @todo check for XLSX format
 	xlSheetSetTabColor(sheet, color);
+	RETURN_TRUE;
+}
+/* }}} */
+
+/* {{{ proto long ExcelSheet::setTabRgbColor(int red, int green, int blue)
+	Sets the RGB color for the sheet's tab. */
+EXCEL_METHOD(Sheet, setTabRgbColor)
+{
+	zval *object = getThis();
+	SheetHandle sheet;
+	zend_long red = 0;
+	zend_long green = 0;
+	zend_long blue = 0;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "lll", &red, &green, &blue) == FAILURE) {
+		RETURN_FALSE;
+	}
+
+	SHEET_FROM_OBJECT(sheet, object);
+
+	xlSheetSetTabRgbColor(sheet, red, green, blue);
 	RETURN_TRUE;
 }
 /* }}} */
@@ -5985,6 +6077,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_writeCol, 0, 0, 2)
 	ZEND_ARG_INFO(0, data_type)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_writeFormula, 0, 0, 3)
+	ZEND_ARG_INFO(0, row)
+	ZEND_ARG_INFO(0, column)
+	ZEND_ARG_INFO(0, expr)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_OBJ_INFO(0, format, ExcelFormat, 1)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_isFormula, 0, 0, 2)
 	ZEND_ARG_INFO(0, row)
 	ZEND_ARG_INFO(0, column)
@@ -6494,6 +6594,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_setTabColor, 0, 0, 0)
 	ZEND_ARG_INFO(0, color)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_setTabRgbColor, 0, 0, 3)
+	ZEND_ARG_INFO(0, red)
+	ZEND_ARG_INFO(0, green)
+	ZEND_ARG_INFO(0, blue)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_Sheet_table, 0, 0, 1)
 	ZEND_ARG_INFO(0, index)
 ZEND_END_ARG_INFO()
@@ -6852,12 +6958,14 @@ zend_function_entry excel_funcs_sheet[] = {
 #endif
 #if LIBXL_VERSION >= 0x03070000
 	EXCEL_ME(Sheet, setTabColor, arginfo_Sheet_setTabColor, 0)
+	EXCEL_ME(Sheet, setTabRgbColor, arginfo_Sheet_setTabRgbColor, 0)
 	EXCEL_ME(Sheet, applyFilter, arginfo_Sheet_applyFilter, 0)
 	EXCEL_ME(Sheet, autoFilter, arginfo_Sheet_autoFilter, 0)
 	EXCEL_ME(Sheet, removeFilter, arginfo_Sheet_removeFilter, 0)
 	EXCEL_ME(Sheet, table, arginfo_Sheet_table, 0)
 	EXCEL_ME(Sheet, writeError, arginfo_Sheet_writeError, 0)
 	EXCEL_ME(Sheet, addIgnoredError, arginfo_Sheet_addIgnoredError, 0)
+	EXCEL_ME(Sheet, writeFormula, arginfo_Sheet_writeFormula, 0)
 #endif
 #if LIBXL_VERSION >= 0x03080000
 	EXCEL_ME(Sheet, addDataValidation, arginfo_Sheet_addDataValidation, 0)
