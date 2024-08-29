@@ -397,7 +397,7 @@ class ExcelSheet
 	} // colWidth
 
 	/**
-	* Returns the cell width
+	* Returns the cell width in pixels
 	*
 	* @see ExcelSheet::rowHeight()
 	* @see ExcelSheet::colWidth()
@@ -405,6 +405,7 @@ class ExcelSheet
 	* @see ExcelSheet::setRowHeight()
 	* @param int $column 0-based column number
 	* @return float
+	* @since libXL 3.8.6.0
 	*/
 	public function colWidthPx($column)
 	{
@@ -1106,7 +1107,7 @@ class ExcelSheet
 	} // rowHeight
 
 	/**
-	* Returns the row height
+	* Returns the row height in pixels
 	*
 	* @see ExcelSheet::colWidth()
 	* @see ExcelSheet::colWidthPx()
@@ -1114,6 +1115,7 @@ class ExcelSheet
 	* @see ExcelSheet::setRowHeight()
 	* @param int $row 0-based row number
 	* @return float
+	* @since libXL 3.8.6.0
 	*/
 	public function rowHeightPx($row)
 	{
